@@ -1,0 +1,71 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>Welcome to {{ title }}!</h1>
+</div>
+
+Enter search element
+<input (keyup)="onKey()" type="text" [(ngModel)]="searchEle" /> <br />
+
+<div>
+  Total Records: {{ (users$ | async).list.length }}
+
+  <form #f="ngForm" novalidate (ngSubmit)="save(f)">
+    <input
+      type="text"
+      name="name"
+      style="width: 300px; height:50px"
+      [ngModel]="listOfItems?.name"
+      required
+      #labelRef
+      class="form-control"
+    />
+
+    <button type="submit" [disabled]="f.invalid">
+      {{ listOfItems.id ? "UPDATE" : "ADD" }}
+    </button>
+
+    <button
+      type="button"
+      (click)="actions.resetActive()"
+      *ngIf="listOfItems.id"
+    >
+      ADD NEW
+    </button>
+  </form>
+
+  <hr />
+  <table>
+    <tr
+      *ngFor="let item of totalListOfItems"
+      [ngClass]="{ active: item.id === (active$ | async)?.id }"
+      (click)="actions.setActiveUser(item.id)"
+    >
+      <td>
+        {{ item.name }}
+      </td>
+      <td>
+        {{ item.email }}
+      </td>
+      <td>
+        <button (click)="actions.deleteUser(item.id)">
+          delete
+        </button>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<!-- <h2>Here are some links to help you start: </h2>
+<ul>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
+  </li>
+  <li>
+    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+  </li>
+</ul> -->
+
+<router-outlet></router-outlet>
